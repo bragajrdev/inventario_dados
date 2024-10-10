@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Inventário e Mapeamento de Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin-left: 20px;
+        }
+        h1 {
+            color: #003d7b;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        h2, h3, p{
+            color: #222222;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: justify;
+        }
+
+        h4 {
+            color: #222222;
+            font-size: 12px;
+            font-weight: normal;
+            text-align: justify;
+        }
+
+        .registro {
+            margin-bottom: 15px;
+        }
+
+        .custom-table {
+            width: 90%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: #f0f8ff;
+            border: 1px solid #0f83ff;
+        }
+    
+        .custom-table td {
+            padding: 10px;
+            text-align: left;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+    
+        .custom-table th {
+            background-color: #2890ff;
+            color: white;
+            font-weight: bold;
+            width: 40%;
+            text-align: center; 
+            vertical-align: middle;
+            font-size:14px;
+            padding: 15px;
+        }
+    
+        .custom-table td ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="logo-container" style="text-align: center; margin-bottom: 40px;">
+        <img src="{% static 'core/img/lgpdweb.png' %}" alt="Logo" style="max-width: 400px; margin-top: 30;">
+    </div>
+    <h1>INVENTÁRIO E MAPEAMENTO DE DADOS</h1>
+    <h4>Este documento representa o registro de tratamento de dados pessoais, que detalha as atividades de processamento de dados realizadas por esta organização. Ele contém informações sobre quais tipos de dados são coletados, as finalidades do tratamento, a base legal utilizada, os responsáveis pelo processamento e o ciclo de vida dos dados. Esse registro é essencial para garantir a transparência e a conformidade com as leis de proteção de dados, como a LGPD.</h3>
+    {% for registro in registros %}
+    <div class="registro">
+        <h2>Registro: {{ registro.atividade_de_tratamento }}</h2>
+        <p><strong>Departamento/Secretaria:</strong> {{ registro.secretaria_ou_departamento }}</p>
+        <table class="custom-table">
+            <tbody>
+                <tr>
+                    <th>Tipo de Dado Pessoal</th>
+                    <td>
+                        <ul>
+                            {% for dado in registro.dados_pessoais.all %}
+                                <li>{{ dado.get_tipo_dado_display }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Base Legal</th>
+                    <td>
+                        <ul>
+                            {% for dado in registro.base_legal.all %}
+                                <li>{{ dado.get_base_legal_display }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Há tratamento de Dados de Criança e/ou Adolescente</th>
+                    <td>
+                        <ul>
+                            {% for dado in registro.crianca_adolescente.all %}
+                                <li>{{ dado.get_crianca_adolescente_display }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Há dados pessoais sensíveis</th>
+                    <td>
+                        <ul>
+                            {% for dado in registro.dados_sensiveis.all %}
+                                <li>{{ dado.get_dados_sensiveis_display }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div> 
+
+
+    {% endfor %}
+</body>
+
+
+
+</html>

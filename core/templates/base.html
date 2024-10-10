@@ -1,0 +1,45 @@
+{% block content %}
+    <h1>Dashboard de Inventário e Mapeamento de Dados</h1>
+    <div class="info-cards">
+        <div class="card">
+            <h3>Total de Registros</h3>
+            <p>{{ total_registros }}</p>
+        </div>
+        <div class="card">
+            <h3>Departamentos Ativos</h3>
+            <p>{{ total_departamentos }}</p>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a href="{% url 'criar_registro' %}" class="btn btn-primary">Criar Novo Registro</a>
+        <a href="{% url 'gerar_pdf' %}" class="btn btn-secondary">Gerar Relatório PDF</a>
+    </div>
+
+    <div class="charts">
+        <h2>Distribuição de Tipos de Dados</h2>
+        <canvas id="dataDistributionChart"></canvas>
+    </div>
+
+    <div class="recent-records">
+        <h2>Registros Recentes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Atividade de Tratamento</th>
+                    <th>Departamento/Secretaria</th>
+                    <th>Data de Criação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registro in registros %}
+                <tr>
+                    <td>{{ registro.atividade_de_tratamento }}</td>
+                    <td>{{ registro.departamento_ou_secretaria }}</td>
+                    <td>{{ registro.data_criacao }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

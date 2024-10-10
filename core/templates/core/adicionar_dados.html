@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Registro de Atividade de Tratamento: {{ registro.atividade_de_tratamento }}</h2>
+    <h3 style="color: #004b97;">Secretaria/Departamento: {{ registro.secretaria_ou_departamento }}</h3>
+    <br>
+    
+    <form method="post" id="dadoPessoalForm">
+        {% csrf_token %}
+        <h3>Adicionar Dado Pessoal</h3>
+        {{ form_dado_pessoal.as_p }}
+        <button type="submit" name="add_dado_pessoal" class="btn btn-primary">Adicionar Dado Pessoal</button>
+    </form>
+    
+    <!-- Exibir os dados pessoais já adicionados -->
+    <div class="mt-4">
+        <h4>Dados Pessoais Adicionados</h4>
+                    <div class="container">
+                        {% for dado in dados_pessoais %}
+                        <div class="box">{{ dado.get_tipo_dado_display }}</div>    
+                        {% endfor %}                
+                    </div>
+ 
+    </div>
+    <br>
+    <br>
+    
+    <!-- Formulários para Base Legal, Criança ou Adolescente e Dados Sensíveis -->
+    <form method="post" id="outrosFormularios" class="mt-5">
+        {% csrf_token %}
+        <!-- <h3>Base Legal</h3> -->
+        {{ form_base_legal.as_p }}
+        <br>
+        <br>
+    
+        <!-- <h3>Criança ou Adolescente</h3> -->
+        {{ form_crianca_adolescente.as_p }}
+        <br>
+        <br>
+        <!-- <h3>Dados Sensíveis</h3> -->
+        {{ form_dados_sensiveis.as_p }}
+        <br>
+        <button type="submit" name="finalizar" class="btn btn-success">Finalizar Salvamento</button>
+    </form>
+    
+   
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Voltar ao Dashboard</a>
+
+    <script>
+        // Usar JavaScript para atualizar a lista dinamicamente sem precisar recarregar a página
+        document.getElementById('dadoForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita o recarregamento da página
+            const form = event.target;
+            
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Atualiza a lista de dados com o conteúdo retornado pelo Django
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newListItem = doc.querySelector('#dadosList').lastElementChild;
+                document.getElementById('dadosList').appendChild(newListItem);
+                
+                // Limpa o formulário após adicionar o dado
+                form.reset();
+            })
+            .catch(error => console.error('Erro ao adicionar dado:', error));
+        });
+    </script>
+
+<style>
+        
+    body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, white, lightblue);
+            height: 100vh;
+            margin: 0;
+        }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+
+    select{
+            height: auto;
+            width: 50%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            margin-bottom: 15px;
+            margin-top: 20px;
+            display: block;
+        }
+
+        select:focus {
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    }
+
+    h1, h2 {
+        margin: 35;
+    }
+    
+    h1, h2 {
+            color: #004b97;
+    }
+    h1, h2, h4, h5, h6, button {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        p, a, th, td, h3 {
+            
+            font-family: 'Arial', sans-serif;
+            text-align: justify;
+            text-transform: uppercase;
+            margin-left: 40;
+        }
+    
+    
+    table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+
+    .btn {
+        font-family:sans-serif;
+        text-align: center;
+        flex-direction: column;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 30;
+        padding: 0.75rem 1.25rem;
+        border-radius: 50px;
+        color: #fff;
+        background-color: #0cf;
+        text-transform: uppercase;
+        font-size: 1rem;
+        letter-spacing: 0.15rem;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .btn:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0cf;
+        border-radius: 50px;
+        z-index: -2;
+    }
+
+    .btn:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background-color: #0094cc;
+        transition: all 0.3s;
+        border-radius: 50px;
+        z-index: -1;
+    }
+
+    .btn:hover {
+        color: #fff;
+    }
+
+    .btn:hover:before {
+        width: 100%;
+    }
+
+    .container {
+    padding: 10px;
+    display:block;
+    flex-wrap: wrap;
+    justify-content:flex-start; 
+    text-align: center;
+}
+
+    .box {
+        margin: 10px;
+        font-family:sans-serif;
+        text-align: center;
+        flex-direction: column;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 30;
+        padding: 0.75rem 1.25rem;
+        border-radius: 50px;
+        color: #fff;
+        background-color: rgb(239, 119, 0);
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 0.15rem;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+
+    }
+</style>
+{% endblock %}

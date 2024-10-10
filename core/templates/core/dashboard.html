@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="logo-container" style="text-align: center; margin-bottom: 40px;">
+    <img src="{% static 'core/img/lgpdweb.png' %}" alt="Logo" style="max-width: 400px; margin-top: 30;">
+</div>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4 display-4 text-primary">Inventário e Mapeamento de Dados</h1>
+
+        <!-- Botões de Ação -->
+        <div class="text-center mb-5">
+            <a href="{% url 'criar_registro' %}" class="button mx-2">Criar Novo Registro</a>
+            <a href="{% url 'gerar_pdf' %}" class="button mx-2">Gerar Relatório PDF</a>
+        </div>
+
+        <!-- Registros Recentes -->
+        <div class="recent-records mb-5">
+            <h2 class="text-center text-primary">Registros Recentes</h2>
+            <table class="table table-hover table-striped mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Registro</th>
+                        <th>Departamento</th>
+                        <th>Data de Criação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registro in registros %}
+                    <tr>
+                        <td>{{ registro.atividade_de_tratamento }}</td>
+                        <td>{{ registro.secretaria_ou_departamento }}</td>
+                        <td>{{ registro.data_criacao|date:"d/m/Y H:i:s" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Custom JS for Charts -->
+    
+    <style>
+        
+        body {
+                font-family: 'Arial', sans-serif;
+                text-align: center;
+                background: linear-gradient(to right, white, lightblue);
+                height: 100vh;
+                margin: 0;
+            }
+
+        h1 {
+            margin: 30;
+        }
+        
+        h1, h2 {
+                color: #004b97;
+        }
+        h1, h2, h3, h4, h5, h6, p, a, th, td, button {
+                font-family: 'Arial', sans-serif;
+                text-align: center;
+                text-transform: uppercase;
+            }
+        
+        
+        table {
+            margin-left: auto;
+            background-color: white;
+            opacity: 0.7;
+            margin-right: auto;
+            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 15px;
+            border-radius: 20px;
+        }
+        
+
+        .button {
+            font-family:sans-serif;
+            text-align: center;
+            flex-direction: column;
+            text-decoration: none;
+            display: inline-block;
+            gap: 40px;
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            color: #fff;
+            background-color: #0cf;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 0.15rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .button:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0cf;
+            border-radius: 50px;
+            z-index: -2;
+        }
+
+        .button:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background-color: #0094cc;
+            transition: all 0.3s;
+            border-radius: 50px;
+            z-index: -1;
+        }
+
+        .button:hover {
+            color: #fff;
+        }
+
+        .button:hover:before {
+            width: 100%;
+        }
+
+        .info-card {
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
+        }
+    </style>
+{% endblock %}
+

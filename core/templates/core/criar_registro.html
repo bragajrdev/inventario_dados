@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Criar Registro de Tratamento de Dados Pessoais</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Salvar Registro</button>
+    </form>
+
+    {% if form.instance.pk %}
+<p><strong>Data de Criação:</strong> {{ registro.data_criacao|date:"d/m/Y H:i:s" }}</p>
+
+    {% endif %}
+
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Voltar ao Dashboard</a>
+
+
+     <!-- Bootstrap JS and Dependencies -->
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <!-- Font Awesome for Icons -->
+     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+     <style>
+        
+        body {
+                font-family: 'Arial', sans-serif;
+                text-align: left;
+                background: linear-gradient(to right, white, lightblue);
+                height: 100vh;
+                margin: 0;
+                margin-left: 50px;
+            }
+        
+        h1, h2 {
+                color: #004b97;
+        }
+        h1, h2, h3, h4, h5, h6, p, a, th, td, button {
+                font-family: 'Arial', sans-serif;
+                text-transform: uppercase;
+                text-align: left;
+                margin: 50px;
+            }
+        
+        p {
+            font-weight: bold;
+            }
+        
+        
+        input{
+            width: 50%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            margin-bottom: 15px;
+            margin-top: 20px;
+            display: block;
+        }
+
+        input:focus {
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    }
+
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }        
+
+        .btn {
+            font-family:sans-serif;
+            text-align: left;
+            flex-direction: column;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 30;
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            color: #fff;
+            background-color: #0cf;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 0.15rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0cf;
+            border-radius: 50px;
+            z-index: -2;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background-color: #0094cc;
+            transition: all 0.3s;
+            border-radius: 50px;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            color: #fff;
+        }
+
+        .btn:hover:before {
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
