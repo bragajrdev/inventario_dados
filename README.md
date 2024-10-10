@@ -1,9 +1,6 @@
 # inventario_dados
 Projeto em Django de Inventário e Mapeamento de Dados Pessoais
 
-
-PASSO A PASSO
-
 1) Instalar o Python e o Pip;
 2) Vai até a pasta do projeto para criar e ativar um ambiente virtual (venv)
 
